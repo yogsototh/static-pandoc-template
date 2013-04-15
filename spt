@@ -1,0 +1,22 @@
+#!/usr/bin/env zsh
+
+(($#<1)) && print -- "usage: ${0:t} fic [fic ...]"
+
+curdir=$HOME/Sites/static-pandoc-template
+
+[[ ! -d static-pandoc ]] && mkdir static-pandoc
+[[ -w static-pandoc ]] && cp -r $curdir/*(/) static-pandoc
+
+for fic in $*; do
+    dst="static-pandoc/${fic:r}.html"
+    tmp=${fic:r}.$$.${fic:e}
+    {
+        echo "% ${fic:r}"
+        echo "% Yann Esposito"
+        echo "% $(date +'%d %h %Y')"
+        cat $fic
+    } > $tmp
+    pandoc -s -S --template $curdir/boilerplate.html $tmp > $dst
+    \rm -f $tmp
+done
+print -- "results are in static-pandoc/"
