@@ -12,6 +12,15 @@ But also a bunch of markdown.
 
 It is not as fine grained as hakyll but it is good enough.
 
+## Install
+
+    mkdir ~/Sites
+    git clone https://github.com:yogsototh/static-pandoc-template ~/Sites
+    # add spt to your PATH
+    export PATH=$PATH:~/Sites/static-pandoc-template
+
+If you want to install it in another directory,
+just change the `curdir` variable of the `spt` script.
 
 ## Usage
 
