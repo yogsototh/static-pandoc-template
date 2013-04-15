@@ -23,7 +23,6 @@ for fic in $*; do
     else
         reldir='.'
     fi
-    print $fic:h : $reldir
     perl -pe 's#\$webprefix\$#'$reldir'#g' < $boil > $tmpboil
     [[ ! -d ${dst:h} ]] && mkdir -p ${dst:h}
     pandoc -s -S --template $tmpboil  $tmp > $dst

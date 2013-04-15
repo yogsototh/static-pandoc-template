@@ -18,7 +18,7 @@ It is not as fine grained as hakyll but it is good enough.
 To compile all lhs files of the current tree directory:
 
 ```
-spt *.lhs
+spt **/*.lhs
 ```
 
 This will create a `static-pandoc` directory.
