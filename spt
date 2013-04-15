@@ -10,13 +10,23 @@ curdir=$HOME/Sites/static-pandoc-template
 for fic in $*; do
     dst="static-pandoc/${fic:r}.html"
     tmp=${fic:r}.$$.${fic:e}
+    boil="$curdir/boilerplate.html"
+    tmpboil="$curdir/tmp.html"
     {
         echo "% ${fic:r}"
         echo "% Yann Esposito"
         echo "% $(date +'%d %h %Y')"
         cat $fic
     } > $tmp
-    pandoc -s -S --template $curdir/boilerplate.html $tmp > $dst
-    \rm -f $tmp
+    if [[ ${fic:h} != '.' ]]; then
+        reldir=$(print -- ${fic:h} |sed 's#[^/]*#..#g')
+    else
+        reldir='.'
+    fi
+    print $fic:h : $reldir
+    perl -pe 's#\$webprefix\$#'$reldir'#g' < $boil > $tmpboil
+    [[ ! -d ${dst:h} ]] && mkdir -p ${dst:h}
+    pandoc -s -S --template $tmpboil  $tmp > $dst
+    print $dst
+    \rm -f $tmp $tmpboil
 done
-print -- "results are in static-pandoc/"
